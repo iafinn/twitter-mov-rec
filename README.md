@@ -18,8 +18,11 @@ I use a Model-View-Controller framework for the app. The Servlet (controller) pr
 │   ├───processed           <- data used in web app
 │   └───raw                 <- original data
 ├───EDA                     <- exploratory data analysis notebook(s)
-├───model                   <- java files for model
-└───web-app                 <- files for web app
+├───MVC-src                 <- source files for app organized by MVC framework
+│   ├───controller          <- Java Servlet controller
+│   ├───model               <- Java model
+│   └───view                <- HTML/CSS/Javascript and JSP viewers 
+└───web-app                 <- files organized for web-app
     ├───src			
     │   └───com
     │       └───iafinn      <- library with servlet and backend java files for model
