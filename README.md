@@ -1,6 +1,11 @@
 ## Twitter-Based Recommendations
 
-The web app is hosted on AWS elastic beanstalk and can be found [here](http://mov-rec.us-west-1.elasticbeanstalk.com/)
+The web app uses a java backend to  hosted on AWS elastic beanstalk and can be found [here](http://mov-rec.us-west-1.elasticbeanstalk.com/)
+
+## Prerequisites
+
+- Java 8 EE
+- Apache Tomcat 8.5
 
 ## Directory Overview
 
