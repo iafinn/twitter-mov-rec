@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"
+	charset="UTF-8">
+<link
+	href="https://fonts.googleapis.com/css?family=Lato:400,900&amp;display=swap"
+	rel="stylesheet">
+<style type="text/css">
+
+.content {
+	max-width: 550px;
+	font-size: 18px;
+	margin: auto;
+	background: rgba(0, 0, 0, 0.5);
+	border-top: 15px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 15px solid rgba(0, 0, 0, 0.1);
+	border-right: 15px solid rgba(0, 0, 0, 0.1);
+	border-left: 15px solid rgba(0, 0, 0, 0.1);
+}
+
+li {
+	margin: 10px 0;
+}
+
+h3 {
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+}
+
+ol {
+	text-align: left;
+}
+
+ul {
+	text-align: left;
+}
+
+body {
+	font-family: 'Lato', sans-serif;
+	color: white;
+	background-color: black;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position-x: center;
+	background-position-y: top;
+	background-image: url("resources/spotlight.png");
+	background-size: 1500px;
+}
+
+.autocomplete {
+	position: relative;
+	display: inline-block;
+}
+
+input {
+	border: 2px solid transparent;
+	background-color: lightgray;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 4px;
+}
+
+input[type=submit] {
+	background-color: DodgerBlue;
+	color: #fff;
+	cursor: pointer;
+}
+
+input[type=button] {
+	cursor: pointer;
+}
+
+.leftalign {
+	margin: auto;
+	max-width: 500px;
+	text-align: left;
+}
+
+.autocomplete-items {
+	position: absolute;
+	border: 1px solid #d4d4d4;
+	border-bottom: none;
+	border-top: none;
+	z-index: 99;
+	/*position the autocomplete items to be the same width as the container:*/
+	top: 100%;
+	left: 0;
+	right: 0;
+}
+
+.autocomplete-items div {
+	padding: 10px;
+	cursor: pointer;
+	background-color: gray;
+	border-bottom: 1px solid #d4d4d4;
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+	color: black;
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+	background-color: DodgerBlue;
+	color: black;
+}
+
+input[type=text], select {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	background-color: LightGray;
+}
+
+div {
+	text-align: center;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td {
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+	background-color: rgb(64, 64, 64);
+}
+
+.link { 
+	color: dodgerblue;  /* CSS link color (red) */
+	padding: 5px; }
+.link:hover { color: white; } /* CSS link hover (green) */
+</style>
+</head>
+
+<body>
+	<div class="content">
+		<br>
+		<h2>Twitter-Based Movie Recommendations</h2>
+		806,000 tweets <span>&#183;</span> 34,000 movies <span>&#183;</span> 59,000 raters <br>
+
+
+<ol class="leftalign"> <li>  Rate movies you've seen
+	<ul >
+		<li>Select movie name, select rating, and click add to list</li>
+	</ul>
+	</li>
+</ol>
+				
+
+		
+	
+		<!--Make sure the form has the autocomplete function switched off:-->
+		<form autocomplete="off" accept-charset="UTF-8" action="">
+			<div class="autocomplete" style="width: 200px;">
+				<input id="myMovie" type="text" name="myMovie"
+					placeholder="Movie Name">
+			</div>
+
+			<select style="width: 100px;" id="myRating">
+				<option value="Select rating">Rating</option>
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+			</select> 
+			<input type="button" onclick="addToList()" value="Add to list">
+			<input type="button" onclick="deleteList()" value="Clear list">
+		</form>
+		<!--This form sends post requests to the mainservlet:-->
+		<form action="MainServlet" method="post">
+			<br>
+			<table id="myList" >
+			</table>
+			
+			
+			<br>
+			
+<ol class="leftalign" start="2"> <li>  Add filters (optional)
+	<ul >
+		<li>Select start year, end year, and/or genre</li>
+	</ul>
+	</li>
+</ol>
+			<select id="startyear" name="startyear"
+				style="width: 150px;"></select> <select id="endyear" name="endyear"
+				style="width: 150px;"></select> <select id="genre" name="genre" 
+				style="width: 180px;">
+			</select> <br> <br> 
+			
+
+			
+			<input type="submit" value="Get recommendations">
+		</form>
+		
+		<br> <br> 
+		<a href="algorithm.html" class='link'> Algorithm details</a> 
+		<a href="https://github.com/iafinn" class='link'> Github repository</a> 
+		<a href="https://github.com/sidooms/MovieTweetings" class='link'>Data source</a> 
+		<a href="http://clipart-library.com/spotlight.html" class='link'>Image source</a>
+	</div>
+	<script type="text/javascript" >
+		//This fills in the year select 
+		var start = 1900;
+		var end = 2019;
+		var options = "";
+		for (var year = end; year >= start; year--) {
+			options += "<option value='" +year+ "'>" + year + "</option>";
+		}
+		document.getElementById("startyear").innerHTML = '<option value="Start year">Start Year Filter</option>'
+				+ options;
+		document.getElementById("endyear").innerHTML = '<option value="End year">End Year Filter</option>'
+				+ options;
+
+		var select = document.getElementById("genre");
+
+		// This code is based off Thắng Trần Xuân on Stackoverflow
+		// It loads the csv files asyncronously, once the page has loaded to fill in the
+		// genre and movie names
+		var titles = [];
+		var genres = [];
+		async function loadCSVFiles() {
+		    // await code here
+		    let titleResult = await makeRequest("POST", "resources/movie_titles.csv");
+		    let genreResult = await makeRequest("POST", "resources/genres.csv");
+		    
+		    // code below here will only execute when await makeRequest() finished loading
+		    genres = genreResult.split('\r\n');
+		    titles = titleResult.split('\r\n');
+		    genres.pop();//remove last entry, always empty from jupyter output
+		    titles.pop()
+		    genreUpdate()
+		    titleUpdate()
+		}
+		document.addEventListener("DOMContentLoaded", function () {
+		    loadCSVFiles();
+		});
+		
+		//processes xml request
+		function makeRequest(method, url) {
+		    return new Promise(function (resolve, reject) {
+		        let xhr = new XMLHttpRequest();
+		        xhr.open(method, url);
+		        xhr.onload = function () {
+		            if (this.status >= 200 && this.status < 300) {
+		                resolve(xhr.response);
+		            } else {
+		                reject({
+		                    status: this.status,
+		                    statusText: xhr.statusText
+		                });
+		            }
+		        };
+		        xhr.onerror = function () {
+		            reject({
+		                status: this.status,
+		                statusText: xhr.statusText
+		            });
+		        };
+		        xhr.send();
+		    });
+		}
+		
+		//initializes the autocomplete portion
+		function titleUpdate() {
+			autocomplete(document.getElementById("myMovie"), titles);
+		}
+		
+		//initializes genre select
+		function genreUpdate() {
+			var genreoptions = "";
+
+			for (var i = 0; i < genres.length; i++) {
+				genreoptions += "<option value='" +genres[i]+ "'>" + genres[i]
+						+ "</option>";
+			}
+			document.getElementById("genre").innerHTML = '<option value="Genre">Genre Filter</option>'
+					+ genreoptions;				
+		}
+
+		var selectedList = [];
+		
+		//adds to user generated rating list
+		function addToList() {
+			var inputVal = document.getElementById("myMovie").value;
+			var rating = document.getElementById("myRating").value;
+			var textnode = document.createTextNode(inputVal + " —— "
+					+ rating);
+			if (titles.includes(inputVal) && rating != "Select rating"
+					&& !selectedList.includes(inputVal)) {
+				selectedList += inputVal;
+				var hInput = document.createElement("input");
+				hInput.setAttribute("type", "hidden");
+				hInput.setAttribute("name", inputVal);
+				hInput.setAttribute("value", rating);
+				var table = document.getElementById("myList");
+				var row = table.insertRow(0);
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				cell1.innerHTML = inputVal;
+				cell2.innerHTML = rating + "/10";
+				document.getElementById("myList").appendChild(hInput);
+			}
+		}
+		
+		//deletes user generated rating list
+		function deleteList() {
+			var list = document.getElementById("myList");
+			selectedList = []
+			while (list.hasChildNodes()) {
+				list.removeChild(list.firstChild);
+			}
+		}
+		
+		//This function from W3 schools
+		//allows autocomplete of the movie titles
+		function autocomplete(inp, arr) {
+			/* this function is from  the autocomplete function takes two arguments,
+			the text field element and an array of possible autocompleted values:*/
+			var currentFocus;
+			/*execute a function when someone writes in the text field:*/
+			inp
+					.addEventListener(
+							"input",
+							function(e) {
+								var a, b, i, val = this.value;
+								/*close any already open lists of autocompleted values*/
+								closeAllLists();
+								if (!val) {
+									return false;
+								}
+								currentFocus = -1;
+								/*create a DIV element that will contain the items (values):*/
+								a = document.createElement("DIV");
+								a.setAttribute("id", this.id
+										+ "autocomplete-list");
+								a.setAttribute("class",
+										"autocomplete-items");
+								/*append the DIV element as a child of the autocomplete container:*/
+								this.parentNode.appendChild(a);
+								//limit displayed results with the counter
+								var counter = 0;
+								/*for each item in the array...*/
+								for (i = 0; i < arr.length; i++) {
+									/*check if the item starts with the same letters as the text field value:*/
+									//if (counter<10) {
+									//		break;
+									//}
+
+									if (arr[i].substr(0, val.length)
+											.toUpperCase() == val
+											.toUpperCase()
+											& counter < 10) {
+										counter = counter + 1;
+										/*create a DIV element for each matching element:*/
+										b = document.createElement("DIV");
+										/*make the matching letters bold:*/
+										b.innerHTML = "<strong>"
+												+ arr[i].substr(0,
+														val.length)
+												+ "</strong>";
+										b.innerHTML += arr[i]
+												.substr(val.length);
+										/*insert a input field that will hold the current array item's value:*/
+										b.innerHTML += '<input type="hidden" value="' + arr[i] + '">';
+										/*execute a function when someone clicks on the item value (DIV element):*/
+										b
+												.addEventListener(
+														"click",
+														function(e) {
+
+															/*insert the value for the autocomplete text field:*/
+															inp.value = this
+																	.getElementsByTagName("input")[0].value;
+															/*close the list of autocompleted values,
+															(or any other open lists of autocompleted values:*/
+															closeAllLists();
+														});
+										a.appendChild(b);
+									}
+								}
+							});
+			/*execute a function presses a key on the keyboard:*/
+			inp.addEventListener("keydown", function(e) {
+				var x = document.getElementById(this.id
+						+ "autocomplete-list");
+				if (x)
+					x = x.getElementsByTagName("div");
+				if (e.keyCode == 40) {
+					/*If the arrow DOWN key is pressed,
+					increase the currentFocus variable:*/
+					currentFocus++;
+					/*and and make the current item more visible:*/
+					addActive(x);
+				} else if (e.keyCode == 38) { //up
+					/*If the arrow UP key is pressed,
+					decrease the currentFocus variable:*/
+					currentFocus--;
+					/*and and make the current item more visible:*/
+					addActive(x);
+				} else if (e.keyCode == 13) {
+					/*If the ENTER key is pressed, prevent the form from being submitted,*/
+					e.preventDefault();
+					if (currentFocus > -1) {
+						/*and simulate a click on the "active" item:*/
+						if (x)
+							x[currentFocus].click();
+					}
+				}
+			});
+			function addActive(x) {
+				/*a function to classify an item as "active":*/
+				if (!x)
+					return false;
+				/*start by removing the "active" class on all items:*/
+				removeActive(x);
+				if (currentFocus >= x.length)
+					currentFocus = 0;
+				if (currentFocus < 0)
+					currentFocus = (x.length - 1);
+				/*add class "autocomplete-active":*/
+				x[currentFocus].classList.add("autocomplete-active");
+			}
+			function removeActive(x) {
+				/*a function to remove the "active" class from all autocomplete items:*/
+				for (var i = 0; i < x.length; i++) {
+					x[i].classList.remove("autocomplete-active");
+				}
+			}
+			function closeAllLists(elmnt) {
+				/*close all autocomplete lists in the document,
+				except the one passed as an argument:*/
+				var x = document
+						.getElementsByClassName("autocomplete-items");
+				for (var i = 0; i < x.length; i++) {
+					if (elmnt != x[i] && elmnt != inp) {
+						x[i].parentNode.removeChild(x[i]);
+					}
+				}
+			}
+			/*execute a function when someone clicks in the document:*/
+			document.addEventListener("click", function(e) {
+				closeAllLists(e.target);
+			});
+		}
+	</script>
+</body>
+</html>
