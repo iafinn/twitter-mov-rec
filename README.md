@@ -5,6 +5,7 @@
 │   ├───processed           <- data used in web app
 │   └───raw                 <- original data
 ├───EDA                     <- exploratory data analysis NBs
+├───model                   <- java files for model
 └───web-app                 <- files for web app
     ├───src			
     │   └───com
@@ -13,5 +14,5 @@
         ├───META-INF
         ├───resources
         └───WEB-INF
-            └───lib
+            └───lib 
 ```
