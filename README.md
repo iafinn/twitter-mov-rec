@@ -2,7 +2,7 @@
 
 ### [Access web application here](http://mov-rec.us-west-1.elasticbeanstalk.com/)
 
-The web app uses twitter data from [movie tweetings](https://github.com/sidooms/MovieTweetings) to generate movie recommendations. The recommendation algorithm is user-based collaborative filtering combined with content filtering. Similarity is computed with a modified cosine method. More details are available [here](http://mov-rec.us-west-1.elasticbeanstalk.com/algorithm.html). The web app is deployed on AWS elastic beanstalk with Apache Tomcat 8.5 and Java 8 EE. I originally started this project for a capstone in the Coursera/Duke specialization: "Java Programming and Software Engineering Fundamentals." I expanded the dataset, changed the algorithm a bit, and then built the Servlet/JSP and HTML/CSS/Javascript frontend.
+The web app uses twitter data from [movie tweetings](https://github.com/sidooms/MovieTweetings) to generate movie recommendations. The recommendation algorithm is user-based collaborative filtering combined with content filtering. Similarity is computed with a modified cosine method. More details are available [here](http://mov-rec.us-west-1.elasticbeanstalk.com/algorithm.html). The web app is deployed on AWS elastic beanstalk with Apache Tomcat 8.5 and Java 8 EE. I originally started this project for a capstone in the Coursera/Duke specialization: "Java Programming and Software Engineering Fundamentals." I expanded the dataset, changed the algorithm and structure of the model, and built the web app using Servlet/JSP and HTML/CSS/Javascript.
 
 ## Prerequisites
 
