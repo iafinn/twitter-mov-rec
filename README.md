@@ -1,3 +1,7 @@
+## Twitter-Based Recommendations
+
+The web app is hosted on AWS elastic beanstalk and can be found [here](http://mov-rec.us-west-1.elasticbeanstalk.com/)
+
 ## Directory Overview
 
 ```
