@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"
+	charset="UTF-8">
+<link
+	href="https://fonts.googleapis.com/css?family=Lato:400,900&amp;display=swap"
+	rel="stylesheet">
+<style type="text/css">
+h3 {
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+}
+
+ol {
+	text-align: left;
+}
+
+ul {
+	text-align: left;
+}
+
+body {
+	font-family: 'Lato', sans-serif;
+	color: white;
+	background-color: black;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position-x: center;
+	background-position-y: top;
+	background-image: url("resources/spotlight.png");
+	background-size: 1500px;
+}
+
+.autocomplete {
+	position: relative;
+	display: inline-block;
+}
+
+input {
+	border: 2px solid transparent;
+	background-color: lightgray;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 4px;
+}
+
+input[type=text] {
+	background-color: #f1f1f1;
+	width: 100%;
+}
+
+input[type=submit] {
+	background-color: DodgerBlue;
+	color: #fff;
+	cursor: pointer;
+}
+
+input[type=button] {
+	cursor: pointer;
+}
+
+.leftalign {
+	margin: auto;
+	max-width: 500px;
+	text-align: left;
+}
+
+.autocomplete-items {
+	position: absolute;
+	border: 1px solid #d4d4d4;
+	border-bottom: none;
+	border-top: none;
+	z-index: 99;
+	/*position the autocomplete items to be the same width as the container:*/
+	top: 100%;
+	left: 0;
+	right: 0;
+}
+
+.autocomplete-items div {
+	padding: 10px;
+	cursor: pointer;
+	background-color: gray;
+	border-bottom: 1px solid #d4d4d4;
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+	color: black;
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+	background-color: DodgerBlue;
+	color: black;
+}
+
+input[type=text], select {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	background-color: LightGray;
+}
+
+div {
+	text-align: justify;
+}
+
+​
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td {
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+	background-color: rgb(64, 64, 64);
+}
+
+.content {
+	max-width: 700px;
+	font-size: 18px;
+	margin: auto;
+	background: rgba(0, 0, 0, 0.5);
+	border-top: 15px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 15px solid rgba(0, 0, 0, 0.1);
+	border-right: 15px solid rgba(0, 0, 0, 0.1);
+	border-left: 15px solid rgba(0, 0, 0, 0.1);
+}
+
+li {
+	margin: 10px 0;
+}
+
+.link { 
+	color: dodgerblue;  /* CSS link color (red) */
+	padding: 5px; }
+.link:hover { color: white; } /* CSS link hover (green) */
+
+.figure {
+	background-color: transparent;
+	border: none;
+	width: 100%;
+	 vertical-align: text-bottom;
+	}
+
+.equation {
+	background-color: transparent;
+	border: none;
+	width:100%;
+	 vertical-align: text-bottom;
+	}
+li {
+	margin: 20px 0;
+}
+
+
+
+</style>
+</head>
+<body>
+<div class="content">
+<h2>Algorithm: User-Based Collaborative Filtering</h2> 
+<h3>Overview</h3>
+
+Movie recommendations are generated for a user based on their similarity to people who have rated movies on Twitter (i.e. other users).
+Since many users are 'collaborating' to recommend a movie, this approach is called 
+<a href="https://en.wikipedia.org/wiki/Collaborative_filtering" class="link">user-based collaborative filtering</a>. More specifically,
+the app uses the user-based nearest neighbor algorithm. Let's consider the steps in the algorithm to see why it's a 
+'nearest neighbor' collaborative filter.
+
+<br>
+<br>
+In order to find a list of recommended movies, the algorithm goes through the following steps:
+<ol>
+<li> Calculate the similarity between the user and each person from Twitter by comparing their reviews. Details for
+this step are given in the next section.</li>
+<li> Identify the k most similar people from Twitter (k nearest neighbors) based on their similarity with the user. 
+In this app I've chosen k=500. </li>
+<li> Select movies that have been rated by at least j of the nearest neighbor people from Twitter. 
+This app uses j=5. </li>
+
+<li> Calculate a weighted average rating for the selected movies using the similarity score for the weights. </li>
+
+<li> Sort the movie list in descending order by the weighted average rating and suggest the top 10 movies. </li>
+</ol>
+
+
+This method assumes that users who share similar movie preferences will be the best people for recommending new movies to watch. 
+On the other hand, users with dissimilar movie tastes would make poor recommendations to one another. If these assumptions
+aren't true, the algorithm will not make good recommendations. Another weakness of this approach is that it can perform poorly 
+on sparse datasets -- those that have few ratings per user. While the Twitter dataset is relatively sparse, there are still 13009 
+users with 10 or more ratings and 1619 users with 100 or more ratings. This provides a sufficient number of users to make recommendations 
+for most queries.
+
+<h3>Calculating the Similarity</h3>
+
+The similarity is a key component in this algorithm. To compute the similarity, the users are represented in vector form. 
+Each entry in the user vectors is the rating of that user on that movie. The vector (5,1), for example, would represent 5/10 
+for the first movie in the dataset and 1/10 for the second movie. I center the ratings vectors to the mean rating for a movie
+for all users in the data set, so that differences from the mean rating are more clearly highlighted. In this case, if the average 
+ratings for the first two movies were 6 and 7, this user would have a rating vector (-1,-6). 
+
+The similarity between two users a and b is given by a modified cosine similarity:
+<br>
+<br>
+<img src="resources/cosinesim.png" class="equation">
+<br>
+<br>
+Here, the second part of the equation is close to the vector definition of the cosine  -- dot product of the vectors divided by 
+their magnitudes. I have added an extra 1 in the denominator so that the equation is numerically stable for users that are close
+to the mean ratings. I could have added a smaller value, say .001, for this purpose, but I also don't want to give users that are near
+to the mean too large of a similarity boost. The prime symbols indicate that the coordinate system has been centered at the mean 
+rating for each movie. 
+<br>
+<br>
+The third part of the equation is the computation of the cosine in terms of ratings r. The r_a,i is the rating of rater a for 
+movie i, and the sum in the numerator is over the set of movies that have been rated by both raters. Again, the denominator normalizes 
+to the length of the vectors + 1 for numerical stability. By centering the vectors around the mean, the missing entries
+are implicity included as the mean value for each movie. Without centering, missing movies would be implicity included as 0/10. 
+
+Graphically, we can visualize the similarities between two users on two movies in a 2D coordinate space:
+<br>
+<br>
+<img src="resources/drawing.png" class="figure"> 
+<br>
+<br>
+
+If the user rating vectors are perpendicular, they will have a similarity of 0. An acute angle leads to a
+ positive similarity and an obtuse angle leads to a negative similarity. Qualitatively, the similarity tells
+ us if the ratings vectors are closer to pointing parallel (positive) or anti-parallel (negative) in the 
+ rating space.
+<br>
+<br>
+It's worth noting that this modified cosine similarity is close to the definition of the commonly used Pearson correlation similarity.
+ In the Pearson correlation the mean value for a user, rather than for all users, is used. This is a good approach for data
+ where there are users that tend to rate all items negatively or all items positively. This doesn't seem to be a serious 
+ problem in this data set. Examining the distribution of reviews (see Github) the data set has a median rating of 8 with an 
+ IQR of 2 points. Thus, it seems that most raters give fairly positive reviews without a very broad distribution. Pearson correlation
+ also suffers from the 'cold start' problem, as it takes many reviews for a user to get an accurate mean review. The modified
+ cosine similarity does better, since the average is always computed over all raters. 
+
+<h3>The Data</h3>
+
+The recomendation algorithm uses a dataset of ratings from Twitter compiled 
+by <a href="https://github.com/sidooms/MovieTweetings" class='link'>MovieTweetings</a>. The 
+dataset consists of movie titles, their IMDB IDs, user IDs, and user ratings. I
+cleaned the dataset to remove duplicates and to get a set of unique titles and
+genres. Details are given on the Github page.  
+<br>
+<br>
+<div style="text-align: center">
+		<a href="index.html" class='link'> Back to main page</a> 
+		<a href="https://github.com/iafinn" class='link'> Github repository</a> 
+		<a href="https://github.com/sidooms/MovieTweetings" class='link'>Data source</a> 
+		<a href="http://clipart-library.com/spotlight.html" class='link'>Image source</a>
+</div>
+</div>
+
+
+
+</body>
+</html>
