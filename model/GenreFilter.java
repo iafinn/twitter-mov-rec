@@ -1,10 +1,7 @@
 package com.iafinn;
 
 /**
- * Write a description of GenreFilter here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ * Filter for genre
  */
 public class GenreFilter implements Filter {
     private String myGenre;
