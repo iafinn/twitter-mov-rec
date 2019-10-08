@@ -1,4 +1,4 @@
-## Twitter-Based Recommendations
+## Twitter-Based Movie Recommendations
 
 ### [Access web application here](http://mov-rec.us-west-1.elasticbeanstalk.com/)
 
